@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import axios from "axios";
+
+const initTest = () => {
+  axios
+    .get("http://localhost:8080/posts")
+    .then((json) => console.log(json))
+    .catch((e) => console.error(e));
+};
 
 function App() {
   const [count, setCount] = useState(0);
-
+  useEffect(() => {
+    initTest();
+  }, []);
   return (
     <>
       <div>
@@ -28,6 +38,8 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+
+      <script></script>
     </>
   );
 }
