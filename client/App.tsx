@@ -1,12 +1,15 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import {
+  BottomTabBarButtonProps,
+  createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
 import HomeScreen from "./src/screens/HomeScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import Home from "./src/assets/images/icons/home.svg";
 import Menu from "./src/assets/images/icons/menu.svg";
-import LineChart from "./src/assets/images/icons/chart.svg";
+import Chart from "./src/assets/images/icons/diamond.svg";
 
-import TangleTabIcon from "./src/components/ShakingIcon";
+import TabIcon from "./src/components/ShakingIcon";
 
 const Tab = createBottomTabNavigator();
 
@@ -17,38 +20,39 @@ export default function App() {
         screenOptions={{
           tabBarStyle: {
             backgroundColor: "#222",
-            borderTopColor: "#c8c8c8",
+            borderTopWidth: 1,
+            borderLeftWidth: 1,
+            borderRightWidth: 1,
+            borderColor: "#c8c8c8",
             borderTopLeftRadius: 24,
             borderTopRightRadius: 24,
             height: 80,
-            paddingTop: 8,
-            paddingBottom: 8,
             position: "absolute",
             left: 0,
             right: 0,
             bottom: 0,
-            overflow: "hidden",
+            paddingTop: 10,
+            paddingLeft: 10,
+            paddingRight: 10,
           },
-          tabBarActiveTintColor: "#fff", // 활성 탭 아이콘/라벨 색
-          tabBarInactiveTintColor: "#aaa", // 비활성 탭 아이콘/라벨 색
         }}
       >
         <Tab.Screen
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarLabel: "", // 여기선 label 숨기기 (컴포넌트 내 직접 렌더)
-            tabBarIcon: ({ focused, color, size }) => (
-              <TangleTabIcon
-                focused={focused}
-                label="홈"
+            tabBarButton: (props) => (
+              <TabIcon
                 icon={
                   <Home
-                    width={size}
-                    height={size}
-                    fill={focused ? "#fff" : "#aaa"}
+                    width={24}
+                    height={24}
+                    fill={props["aria-selected"] ? "#fff" : "#aaa"}
                   />
                 }
+                label="홈"
+                focused={props["aria-selected"] ?? false}
+                onPress={props.onPress}
               />
             ),
           }}
@@ -58,18 +62,18 @@ export default function App() {
           name="Chart"
           component={HomeScreen}
           options={{
-            tabBarLabel: "", // 여기선 label 숨기기 (컴포넌트 내 직접 렌더)
-            tabBarIcon: ({ focused, color, size }) => (
-              <TangleTabIcon
-                focused={focused}
-                label="분석"
+            tabBarButton: (props) => (
+              <TabIcon
                 icon={
-                  <LineChart
-                    width={size}
-                    height={size}
-                    fill={focused ? "#fff" : "#aaa"}
+                  <Chart
+                    width={24}
+                    height={24}
+                    fill={props["aria-selected"] ? "#fff" : "#aaa"}
                   />
                 }
+                label="분석"
+                focused={props["aria-selected"] ?? false}
+                onPress={props.onPress}
               />
             ),
           }}
@@ -78,18 +82,18 @@ export default function App() {
         <Tab.Screen
           name="Menu"
           options={{
-            tabBarLabel: "", // 여기선 label 숨기기 (컴포넌트 내 직접 렌더)
-            tabBarIcon: ({ focused, color, size }) => (
-              <TangleTabIcon
-                focused={focused}
-                label="홈"
+            tabBarButton: (props) => (
+              <TabIcon
                 icon={
                   <Menu
-                    width={size}
-                    height={size}
-                    fill={focused ? "#fff" : "#aaa"}
+                    width={24}
+                    height={24}
+                    fill={props["aria-selected"] ? "#fff" : "#aaa"}
                   />
                 }
+                label="전체"
+                focused={props["aria-selected"] ?? false}
+                onPress={props.onPress}
               />
             ),
           }}

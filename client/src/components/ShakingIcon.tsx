@@ -1,19 +1,27 @@
-import React, { useRef, useEffect } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React, { useEffect, useRef } from "react";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Pressable,
+  PressableStateCallbackType,
+  GestureResponderEvent,
+} from "react-native";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  withSequence,
   withSpring,
+  withSequence,
 } from "react-native-reanimated";
 import { useNavigation } from "@react-navigation/native";
 import * as Haptics from "expo-haptics";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
-interface Props {
+interface TabIconProps {
   icon: React.ReactNode;
   label: string;
   focused: boolean;
+  onPress?: (event: GestureResponderEvent) => void; // 👈 꼭 받아야 함
   activeColor?: string;
   inactiveColor?: string;
 }
@@ -24,60 +32,80 @@ type TabParamList = {
   Menu: undefined;
 };
 
-export default function TangleTabIcon({
+export default function TabIcon({
   icon,
   label,
   focused,
   activeColor = "#fff",
   inactiveColor = "#aaa",
-}: Props) {
+  onPress,
+}: TabIconProps) {
   const scale = useSharedValue(1);
-  const wasFocused = useRef(false);
-
-  useEffect(() => {
-    if (focused && !wasFocused.current) {
-      scale.value = withSequence(
-        withSpring(1.2, { stiffness: 180, damping: 5 }),
-        withSpring(0.95, { stiffness: 180, damping: 7 }),
-        withSpring(1.0, { stiffness: 180, damping: 10 })
-      );
-    }
-    wasFocused.current = focused;
-  }, [focused]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: scale.value }],
-    alignItems: "center",
-  }));
 
   const navigation = useNavigation<BottomTabNavigationProp<TabParamList>>();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener("tabPress", () => {
-      Haptics.selectionAsync(); // 진동 실행
+      Haptics.selectionAsync(); // 진동 효과
     });
-
     return unsubscribe;
   }, [navigation]);
 
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  const getBackgroundColor = (pressed: boolean): string => {
+    if (pressed) return "#3d3d3d4f";
+    return "transparent";
+  };
+
   return (
-    <Animated.View style={animatedStyle}>
-      <View style={styles.center}>{icon}</View>
-      <Text
-        style={{
-          color: focused ? activeColor : inactiveColor,
-          fontSize: 12,
-          marginTop: 2,
-        }}
-      >
-        {label}
-      </Text>
-    </Animated.View>
+    <Pressable
+      onPressIn={() => {
+        scale.value = withSpring(0.85);
+      }}
+      onPressOut={() => {
+        scale.value = withSpring(1.0);
+      }}
+      onPress={(e) => {
+        Haptics.selectionAsync();
+        scale.value = withSpring(0.95);
+        setTimeout(() => {
+          scale.value = withSpring(1.0);
+        }, 150);
+
+        onPress?.(e);
+      }}
+      hitSlop={10}
+      style={({ pressed }: PressableStateCallbackType) => [
+        {
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 12,
+          padding: 8,
+          backgroundColor: getBackgroundColor(pressed),
+          boxSizing: "border-box",
+        },
+      ]}
+    >
+      <Animated.View style={[styles.container, animatedStyle]}>
+        <View>{icon}</View>
+        <Text
+          style={{
+            color: focused ? activeColor : inactiveColor,
+            marginTop: 4,
+          }}
+        >
+          {label}
+        </Text>
+      </Animated.View>
+    </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  center: {
+  container: {
     alignItems: "center",
     justifyContent: "center",
   },
