@@ -5,8 +5,15 @@ export default function HomeScreen() {
   const [text, setText] = useState("");
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>홈 화면입니다!</Text>
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#222",
+      }}
+    >
+      <Text style={{ color: "#fff" }}>홈 화면입니다!</Text>
       <TextInput
         style={{ height: 40, padding: 5, backgroundColor: "#fff" }}
         placeholder="Type here to translate!"

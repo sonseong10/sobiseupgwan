@@ -63,17 +63,18 @@ export default function TabIcon({
   return (
     <Pressable
       onPressIn={() => {
-        scale.value = withSpring(0.85);
+        scale.value = withSequence(
+          withSpring(0.8, { damping: 5 }),
+          withSpring(1.05, { damping: 5 }),
+          withSpring(1.0, { damping: 5 })
+        );
       }}
       onPressOut={() => {
-        scale.value = withSpring(1.0);
+        scale.value = withSpring(1.0, { damping: 6 });
       }}
       onPress={(e) => {
         Haptics.selectionAsync();
         scale.value = withSpring(0.95);
-        setTimeout(() => {
-          scale.value = withSpring(1.0);
-        }, 150);
 
         onPress?.(e);
       }}

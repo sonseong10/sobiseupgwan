@@ -1,15 +1,14 @@
 import { NavigationContainer } from "@react-navigation/native";
-import {
-  BottomTabBarButtonProps,
-  createBottomTabNavigator,
-} from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "./src/screens/HomeScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import Home from "./src/assets/images/icons/home.svg";
 import Menu from "./src/assets/images/icons/menu.svg";
 import Chart from "./src/assets/images/icons/diamond.svg";
+import * as Haptics from "expo-haptics";
 
 import TabIcon from "./src/components/ShakingIcon";
+import { Text, Pressable, Alert } from "react-native";
 
 const Tab = createBottomTabNavigator();
 
@@ -23,7 +22,7 @@ export default function App() {
             borderTopWidth: 1,
             borderLeftWidth: 1,
             borderRightWidth: 1,
-            borderColor: "#c8c8c8",
+            borderColor: "#333333",
             borderTopLeftRadius: 24,
             borderTopRightRadius: 24,
             height: 80,
@@ -62,6 +61,30 @@ export default function App() {
           name="Chart"
           component={HomeScreen}
           options={{
+            headerTitle: "소비",
+            headerTitleAlign: "left",
+            headerStyle: {
+              backgroundColor: "#222",
+            },
+            headerTitleStyle: {
+              color: "#fff",
+              fontSize: 24,
+            },
+            headerRight: () => (
+              <Pressable
+                onPress={() => {
+                  Haptics.notificationAsync(
+                    Haptics.NotificationFeedbackType.Warning
+                  );
+                  Alert.alert("설정 열기", "정말로 열까요?", [
+                    { text: "취소", style: "cancel" },
+                    { text: "확인", onPress: () => console.log("Go!") },
+                  ]);
+                }}
+              >
+                <Text style={{ color: "#fff", marginRight: 16 }}>⚙️</Text>
+              </Pressable>
+            ),
             tabBarButton: (props) => (
               <TabIcon
                 icon={
