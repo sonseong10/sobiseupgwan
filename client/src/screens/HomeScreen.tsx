@@ -8,14 +8,16 @@ export default function HomeScreen() {
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
         backgroundColor: "#222",
+        padding: 12,
+        justifyContent: "flex-start",
+        alignItems: "stretch",
+        gap: 12,
       }}
     >
       <Text style={{ color: "#fff" }}>홈 화면입니다!</Text>
       <TextInput
-        style={{ height: 40, padding: 5, backgroundColor: "#fff" }}
+        style={{ height: 40, padding: 5, backgroundColor: "#333" }}
         placeholder="Type here to translate!"
         onChangeText={(newText) => setText(newText)}
         defaultValue={text}

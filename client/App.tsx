@@ -6,7 +6,7 @@ import Home from "./src/assets/images/icons/home.svg";
 import Menu from "./src/assets/images/icons/menu.svg";
 import Chart from "./src/assets/images/icons/diamond.svg";
 import * as Haptics from "expo-haptics";
-
+import { StatusBar } from "react-native";
 import TabIcon from "./src/components/ShakingIcon";
 import { Text, Pressable, Alert } from "react-native";
 
@@ -15,6 +15,10 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
+      <StatusBar
+        barStyle="light-content" // 시계, 아이콘 색상을 밝게 (흰색 등)
+        backgroundColor="#222" // 안드로이드 전용 배경색 설정
+      />
       <Tab.Navigator
         screenOptions={{
           tabBarStyle: {
@@ -40,6 +44,15 @@ export default function App() {
           name="Home"
           component={HomeScreen}
           options={{
+            headerTitle: "소비습관",
+            headerTitleAlign: "left",
+            headerStyle: {
+              backgroundColor: "#222",
+            },
+            headerTitleStyle: {
+              color: "#fff",
+              fontSize: 24,
+            },
             tabBarButton: (props) => (
               <TabIcon
                 icon={
@@ -105,6 +118,10 @@ export default function App() {
         <Tab.Screen
           name="Menu"
           options={{
+            headerTitle: "",
+            headerStyle: {
+              backgroundColor: "#222",
+            },
             tabBarButton: (props) => (
               <TabIcon
                 icon={
