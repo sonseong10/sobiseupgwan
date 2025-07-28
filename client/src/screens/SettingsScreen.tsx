@@ -8,7 +8,7 @@ export default function SettingsScreen() {
         backgroundColor: "#222",
       }}
     >
-      <Text>SettingsScreen 화면입니다!</Text>
+      <Text style={{ color: "#fff" }}>SettingsScreen 화면입니다!</Text>
     </View>
   );
 }

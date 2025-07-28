@@ -9,6 +9,7 @@ import * as Haptics from "expo-haptics";
 import { StatusBar } from "react-native";
 import TabIcon from "./src/components/ShakingIcon";
 import { Text, Pressable, Alert } from "react-native";
+import React from "react";
 
 const Tab = createBottomTabNavigator();
 
@@ -74,7 +75,7 @@ export default function App() {
           name="Chart"
           component={HomeScreen}
           options={{
-            headerTitle: "소비",
+            headerTitle: "소비분석",
             headerTitleAlign: "left",
             headerStyle: {
               backgroundColor: "#222",
