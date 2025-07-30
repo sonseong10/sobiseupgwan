@@ -1,4 +1,4 @@
-import { useState } from "react";
+import CountUpText from "@/components/CountUpNumber";
 import {
   View,
   Text,
@@ -9,8 +9,6 @@ import {
 } from "react-native";
 
 export default function HomeScreen() {
-  const [text, setText] = useState("");
-
   return (
     <View
       style={{
@@ -36,9 +34,26 @@ export default function HomeScreen() {
             >
               총 보유자산
             </Text>
-            <Text style={{ color: "#fff", fontWeight: "700", fontSize: 32 }}>
-              3,000,000원
-            </Text>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <CountUpText
+                to={3700250}
+                duration={8000}
+                style={{
+                  color: "#fff",
+                  fontWeight: "700",
+                  fontSize: 32,
+                }}
+              />
+              <Text style={{ color: "#fff", fontWeight: "700", fontSize: 28 }}>
+                원
+              </Text>
+            </View>
             <Pressable>
               <Text
                 style={{
