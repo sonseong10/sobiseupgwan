@@ -10,6 +10,7 @@ import { StatusBar } from "react-native";
 import TabIcon from "./src/components/ShakingIcon";
 import { Text, Pressable, Alert } from "react-native";
 import React from "react";
+import AnalyzeScreen from "@/screens/AnalyzeScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -73,7 +74,7 @@ export default function App() {
 
         <Tab.Screen
           name="Chart"
-          component={HomeScreen}
+          component={AnalyzeScreen}
           options={{
             headerTitle: "소비분석",
             headerTitleAlign: "left",
